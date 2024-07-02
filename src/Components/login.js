@@ -14,6 +14,10 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  function loggedInUser() {
+    return users.find(u => u.loggedIn);
+  }
+
   function validate(field, label) {
     if (!field) {
       setStatus('Error: ' + label + ' is required.');
@@ -24,7 +28,6 @@ export default function Login() {
   }
 
   function handleLogin() {
-    users.forEach(u => ({ ...u, loggedIn: false }));
     // logout();
     if (!validate(email, 'email')) return;
     if (!validate(password, 'password')) return;
@@ -32,9 +35,9 @@ export default function Login() {
     let guestIndex = users.findIndex(u => u.email === email && u.password === password);
 
     if (guestIndex >= 0) {
+      users.forEach(u => u.loggedIn = false);
       users[guestIndex].loggedIn = true;
       setUsers([...users]);
-      console.log(email, password);
       // login();
     }
     else {
@@ -66,7 +69,7 @@ export default function Login() {
             </>
           ) : (
             <>
-              {<h5>Welcome to the Bad Bank!</h5>}
+              {<h5>{!status ? "Hi " + loggedInUser().name + ". Welcome to the Bad Bank!" : ''}</h5>}
               <Button type="submit" className="btn btn-light" onClick={clearForm}>Login with another account</Button>
             </>
           )}
