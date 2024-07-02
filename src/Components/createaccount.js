@@ -30,7 +30,7 @@ export default function CreateAccount() {
     if (!validate(name, 'name')) return;
     if (!validate(email, 'email')) return;
     if (!validate(password, 'password')) return;
-    setUsers([...users, ...[{ name, email, password, balance: 0, loggedIn: false }]]);
+    setUsers([...users, ...[{ name, email, password, balance: 0, loggedIn: false, transactions: [] }]]);
 
     setShow(false);
   }
